@@ -421,10 +421,10 @@ class DataAugmentationDINO(object):
         flip_and_color_jitter = transforms.Compose([
             transforms.RandomHorizontalFlip(p=0.5),
             transforms.RandomApply(
-                [transforms.ColorJitter(brightness=0.4, contrast=0.4, saturation=0.2, hue=0.1)],
-                p=0.8
+                [transforms.ColorJitter(brightness=0.5918737491981877, contrast=1.1513307570530626, saturation=0.01767797917203415, hue=0.08749582439198282)],
+                p=0.32011207176587564
             ),
-            transforms.RandomGrayscale(p=0.2),
+            transforms.RandomGrayscale(p=0.13152910682197913),
         ])
         normalize = transforms.Compose([
             transforms.ToTensor(),
@@ -443,7 +443,7 @@ class DataAugmentationDINO(object):
             transforms.RandomResizedCrop(224, scale=global_crops_scale, interpolation=Image.BICUBIC),
             flip_and_color_jitter,
             utils.GaussianBlur(0.1),
-            utils.Solarization(0.2),
+            utils.Solarization(p=0.2, threshold=130),  # use default PIL threshold here
             normalize,
         ])
         # transformation for the local small crops
@@ -451,6 +451,7 @@ class DataAugmentationDINO(object):
         self.local_transfo = transforms.Compose([
             transforms.RandomResizedCrop(96, scale=local_crops_scale, interpolation=Image.BICUBIC),
             flip_and_color_jitter,
+            utils.Solarization(p=0.38645378707287636, threshold=121),
             utils.GaussianBlur(p=0.5),
             normalize,
         ])

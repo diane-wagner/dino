@@ -58,12 +58,13 @@ class Solarization(object):
     """
     Apply Solarization to the PIL image.
     """
-    def __init__(self, p):
+    def __init__(self, p, threshold):
         self.p = p
+        self.threshold = threshold
 
     def __call__(self, img):
         if random.random() < self.p:
-            return ImageOps.solarize(img)
+            return ImageOps.solarize(img, self.threshold)
         else:
             return img
 
